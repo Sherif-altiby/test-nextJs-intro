@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Testing with Jest & React Testing Library
+
+A beginner-friendly Next.js project that demonstrates how to set up and write unit tests for React components using **Jest** and **React Testing Library**. The project tests the default Next.js home page to verify that key UI elements are rendered correctly.
+
+---
+
+## Prerequisites
+
+Make sure you have the following installed before getting started:
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm (comes with Node.js)
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Sherif-altiby/test-nextJs-intro.git
+cd test-nextJs-intro
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setting Up Testing
+
+### 1. Install testing dependencies
+
+```bash
+npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom ts-node
+```
+
+### 2. Create `jest.config.ts`
+
+```ts
+import type { Config } from "jest";
+import nextJest from "next/jest";
+
+const createJestConfig = nextJest({
+  dir: "./",
+});
+
+const config: Config = {
+  coverageProvider: "v8",
+  testEnvironment: "jsdom",
+  setupFilesAfterFramework: ["<rootDir>/jest.setup.ts"],
+};
+
+export default createJestConfig(config);
+```
+
+### 3. Create `jest.setup.ts`
+
+```ts
+import "@testing-library/jest-dom";
+```
+
+### 4. Add test script to `package.json`
+
+```json
+"scripts": {
+  "test": "jest",
+  "test:watch": "jest --watch"
+}
+```
+
+---
+
+## Running Tests
+
+Run all tests once:
+
+```bash
+npm test
+```
+
+Run tests in watch mode (re-runs on file change):
+
+```bash
+npm run test:watch
+```
+
+---
+
+## Project Structure
+
+```
+├── __tests__/
+│   └── page.test.tsx       # Tests for the home page
+├── app/
+│   └── page.tsx            # Home page component
+├── jest.config.ts          # Jest configuration
+├── jest.setup.ts           # Jest setup file
+└── package.json
+```
+
+---
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
